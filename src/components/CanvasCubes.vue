@@ -1,9 +1,9 @@
 <!-- eslint-disable max-len -->
-<!-- eslint-disable import/no-extraneous-dependencies -->
 <script setup>
 import { ref, onMounted } from 'vue';
-
-import * as THREE from 'three';
+import {
+  PerspectiveCamera, MathUtils, Scene, PointLight, Color, BoxGeometry, MeshLambertMaterial, Mesh, WebGLRenderer,
+} from 'three';
 
 const canvasRef = ref(null);
 const canvasWrapper = ref(null);
@@ -17,32 +17,32 @@ let theta = 0;
 function animate() {
   theta += 0.3;
 
-  camera.position.x = radius * Math.sin(THREE.MathUtils.degToRad(theta));
-  camera.position.y = radius * Math.sin(THREE.MathUtils.degToRad(theta));
-  camera.position.z = radius * Math.cos(THREE.MathUtils.degToRad(theta));
+  camera.position.x = radius * Math.sin(MathUtils.degToRad(theta));
+  camera.position.y = radius * Math.sin(MathUtils.degToRad(theta));
+  camera.position.z = radius * Math.cos(MathUtils.degToRad(theta));
   camera.lookAt(scene.position);
 
   renderer.render(scene, camera);
 }
 
 function init() {
-  camera = new THREE.PerspectiveCamera(70, canvasWrapper.value.offsetWidth / canvasWrapper.value.offsetHeight, 0.1, 100);
+  camera = new PerspectiveCamera(70, canvasWrapper.value.offsetWidth / canvasWrapper.value.offsetHeight, 0.1, 100);
 
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color('#111111');
+  scene = new Scene();
+  scene.background = new Color('#111111');
 
-  const light = new THREE.PointLight(0xffffff, 3, 0, 0);
+  const light = new PointLight(0xffffff, 3, 0, 0);
 
   scene.add(camera);
   camera.add(light);
 
   const colors = ['gray', 'gray'];
-  const geometry = new THREE.BoxGeometry();
+  const geometry = new BoxGeometry();
 
   for (let i = 0; i < 300; i += 1) {
     const layer = (i % colors.length);
 
-    const object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ color: colors[layer] }));
+    const object = new Mesh(geometry, new MeshLambertMaterial({ color: colors[layer] }));
 
     object.position.x = Math.random() * 40 - 20;
     object.position.y = Math.random() * 40 - 20;
@@ -59,7 +59,7 @@ function init() {
     scene.add(object);
   }
 
-  renderer = new THREE.WebGLRenderer({ antialias: true, canvas: canvasRef.value });
+  renderer = new WebGLRenderer({ antialias: true, canvas: canvasRef.value });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(canvasWrapper.value.offsetWidth, canvasWrapper.value.offsetHeight);
   renderer.setAnimationLoop(animate);
