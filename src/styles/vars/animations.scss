@@ -1,0 +1,17 @@
+@keyframes show-text {
+  30% {
+    opacity: 0;
+  }
+  31% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes move-fill {
+  100% {
+    background-position-x: -200%;
+  }
+}

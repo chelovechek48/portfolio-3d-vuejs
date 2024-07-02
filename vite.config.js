@@ -1,13 +1,14 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'url';
 import vue from '@vitejs/plugin-vue';
+import glsl from 'vite-plugin-glsl';
 
 export default defineConfig({
   base: '/portfolio-3d-vuejs',
   server: {
     port: '8080',
   },
-  plugins: [vue()],
+  plugins: [vue(), glsl()],
   resolve: {
     alias: [
       { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
