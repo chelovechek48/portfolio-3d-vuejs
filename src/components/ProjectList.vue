@@ -91,6 +91,7 @@ const props = defineProps({
     margin-right: calc(0px - $height * 0.3);
     margin-left: calc(0px - $height * 0.25);
     height: $height;
+    pointer-events: none;
   }
 }
 </style>

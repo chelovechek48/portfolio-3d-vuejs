@@ -45,14 +45,14 @@ const createDemo = async () => {
   const textureLoader = new TextureLoader();
 
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath(`${baseUrl}/src/assets/models/draco/`);
+  dracoLoader.setDecoderPath(`${baseUrl}/draco/`);
 
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
 
   const [placeholder, gltf] = await Promise.all([
     await textureLoader.loadAsync(props.image),
-    await gltfLoader.loadAsync(`${baseUrl}/src/assets/models/laptop.glb`),
+    await gltfLoader.loadAsync(`${baseUrl}/laptop.glb`),
   ]);
 
   const applyScreenTexture = async (texture, node) => {
