@@ -81,6 +81,5 @@ onMounted(() => {
 <style lang="scss" scoped>
 .canvas {
   inset: 0 0 -400px 0;
-  background-color: var(--color-background);
 }
 </style>

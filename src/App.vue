@@ -1,10 +1,22 @@
 <script setup>
 import AppHero from '@components/AppHero.vue';
+import ProjectList from '@components/ProjectList.vue';
+import chessImage from '@images/projects/chess.jpg';
+
+const projects = [
+  {
+    id: 1,
+    image: chessImage,
+    title: 'Сайт шахматного турнира',
+    description: 'Это сайт шахматного турнира Это сайт шахматного турнира Это сайт шахматного турнира Это сайт шахматного турнира Это сайт шахматного турнира Это сайт шахматного турнира',
+  },
+];
 </script>
 
 <template>
   <div class="page">
     <AppHero />
+    <ProjectList :projects="projects" />
   </div>
 </template>
 

@@ -30,6 +30,7 @@ import CanvasSphere from '@components/CanvasSphere.vue';
   &__animated-sphere {
     z-index: 1;
     position: absolute;
+    pointer-events: none;
   }
 
   &__container {
