@@ -1,7 +1,7 @@
 <script setup>
 import ProjectDemo from '@components/ProjectDemo.vue';
 
-const props = defineProps({
+defineProps({
   projects: {
     type: Array,
     required: true,

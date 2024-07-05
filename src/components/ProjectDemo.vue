@@ -19,8 +19,6 @@ const props = defineProps({
   },
 });
 
-const baseUrl = 'portfolio-3d-vuejs';
-
 const canvasRef = ref(null);
 
 const createDemo = async () => {
@@ -46,8 +44,7 @@ const createDemo = async () => {
   const textureLoader = new TextureLoader();
 
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderConfig({ type: 'js' });
-  dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+  dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
 
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
