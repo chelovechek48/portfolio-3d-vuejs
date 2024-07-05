@@ -9,6 +9,11 @@ export default defineConfig({
     port: '8080',
   },
   plugins: [vue(), glsl()],
+  build: {
+    rollupOptions: {
+      external: ['/portfolio-3d-vuejs/draco/draco_decoder.wasm'],
+    },
+  },
   assetsInclude: ['**/*.glb'],
   resolve: {
     alias: [
