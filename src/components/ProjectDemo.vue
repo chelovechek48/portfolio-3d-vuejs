@@ -46,7 +46,7 @@ const createDemo = async () => {
   const textureLoader = new TextureLoader();
 
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath('/draco/');
+  dracoLoader.setDecoderPath('/public/draco/');
 
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
