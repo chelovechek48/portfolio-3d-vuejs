@@ -1,15 +1,13 @@
 <script setup>
-import AnimatedText from '@components/AnimatedText.vue';
 import CanvasSphere from '@components/CanvasSphere.vue';
 </script>
 
 <template>
   <header class="hero">
     <div class="hero__container container">
-      <AnimatedText
-        class="hero__span"
-        text="Максим Иванюхин"
-      />
+      <span class="hero__span">
+        Максим Иванюхин
+      </span>
       <h1 class="hero__title">
         Фронтенд разработчик
       </h1>
@@ -19,6 +17,8 @@ import CanvasSphere from '@components/CanvasSphere.vue';
 </template>
 
 <style lang="scss" scoped>
+@use '@vars/mixins' as *;
+
 .hero {
   min-height: 100dvh;
 
@@ -49,6 +49,7 @@ import CanvasSphere from '@components/CanvasSphere.vue';
     font-size: 2.25rem;
     font-weight: 600;
     letter-spacing: 0.25em;
+    @include fill-text;
   }
 }
 </style>

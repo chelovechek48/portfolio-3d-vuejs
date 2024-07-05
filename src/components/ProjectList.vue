@@ -79,10 +79,27 @@ defineProps({
   }
   &__button {
     color: var(--color-background);
-    background-color: var(--color-aqua);
+    z-index: 1;
     padding: 1rem 1.5rem;
     font-size: 1.5rem;
     font-weight: 500;
+
+    position: relative;
+    &::before {
+      content: '';
+      z-index: -1;
+      position: absolute;
+      inset: 0;
+      background-color: var(--color-aqua);
+      $clip-padding: 1.25rem;
+      clip-path: polygon(
+        100% 0,
+        100% calc(100% - $clip-padding),
+        calc(100% - $clip-padding) 100%,
+        0 100%,
+        0 0
+      );
+    }
   }
 
   &__image {

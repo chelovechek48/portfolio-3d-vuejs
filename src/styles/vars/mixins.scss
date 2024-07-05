@@ -1,0 +1,52 @@
+$ease: cubic-bezier(0.25, 0.1, 0.25, 1.0);
+
+@keyframes show-text {
+  30% {
+    color: transparent;
+  }
+  31% {
+    color: var(--current-color);
+  }
+  100% {
+    color: var(--current-color);
+  }
+}
+
+@keyframes move-fill {
+  100% {
+    background-position-x: -200%;
+  }
+}
+
+@mixin fill-text (
+  $color: var(--color-text),
+  $fill: var(--color-aqua),
+  $duration: 3s,
+  $delay: 1s,
+) {
+  --current-color: #{$color};
+  position: relative;
+  display: inline-block;
+
+  color: transparent;
+  animation:
+    show-text
+    $duration $delay $ease
+    forwards;
+
+  &::before {
+    content: '';
+    z-index: 2;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(
+      90deg,
+      transparent 50%, $fill 50%
+    );
+    background-size: 200%;
+    animation:
+      move-fill
+      $duration $delay $ease;
+  }
+}
