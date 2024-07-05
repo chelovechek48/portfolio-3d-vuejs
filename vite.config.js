@@ -9,6 +9,7 @@ export default defineConfig({
     port: '8080',
   },
   plugins: [vue(), glsl()],
+  assetsInclude: ['**/*.glb'],
   resolve: {
     alias: [
       { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },

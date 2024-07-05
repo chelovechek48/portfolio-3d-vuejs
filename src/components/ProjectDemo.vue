@@ -10,6 +10,7 @@ import {
 } from 'three';
 import { DRACOLoader, GLTFLoader } from 'three-stdlib';
 import { gsap } from 'gsap';
+import laptopModel from '@/assets/models/laptop.glb';
 
 const props = defineProps({
   image: {
@@ -52,7 +53,7 @@ const createDemo = async () => {
 
   const [placeholder, gltf] = await Promise.all([
     await textureLoader.loadAsync(props.image),
-    await gltfLoader.loadAsync(`${baseUrl}/laptop.glb`),
+    await gltfLoader.loadAsync(laptopModel),
   ]);
 
   const applyScreenTexture = async (texture, node) => {
