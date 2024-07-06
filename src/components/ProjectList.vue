@@ -1,12 +1,13 @@
 <script setup>
 import ProjectDemo from '@components/ProjectDemo.vue';
 
-defineProps({
-  projects: {
-    type: Array,
-    required: true,
-  },
-});
+import projects from '@/assets/json/projects.json';
+
+const images = import.meta.glob('@images/projects/*.*', { eager: true });
+const getImage = (imageName) => {
+  const imageNameWithPath = `/src/assets/images/projects/${imageName}`;
+  return images[imageNameWithPath].default;
+};
 
 </script>
 
@@ -29,8 +30,8 @@ defineProps({
         </a>
       </div>
       <ProjectDemo
-        :image="project.image"
-        class="works__image"
+        :image="getImage(project.image)"
+        :model="project.model"
       />
     </li>
   </ul>
@@ -44,6 +45,10 @@ defineProps({
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 3rem;
+    &:nth-child(even) {
+      flex-direction: row-reverse;
+    }
   }
   &__text {
     display: flex;
@@ -100,15 +105,6 @@ defineProps({
         0 0
       );
     }
-  }
-
-  &__image {
-    // aspect-ratio: 15 / 10;
-    $height: 45rem;
-    margin-right: calc(0px - $height * 0.3);
-    margin-left: calc(0px - $height * 0.25);
-    height: $height;
-    pointer-events: none;
   }
 }
 </style>

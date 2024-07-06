@@ -10,6 +10,8 @@ import {
 } from 'three';
 import { DRACOLoader, GLTFLoader } from 'three-stdlib';
 import { gsap } from 'gsap';
+
+import phoneModel from '@/assets/models/phone.glb';
 import laptopModel from '@/assets/models/laptop.glb';
 
 const props = defineProps({
@@ -17,10 +19,55 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  model: {
+    type: String,
+    required: true,
+  },
+  ratio: {
+    type: String,
+    required: true,
+  },
 });
+
+const devices = [
+  {
+    name: 'laptop',
+    model: laptopModel,
+    position: [0, -0.3, -6],
+    ratio: 3 / 2,
+    margin: -0.3,
+    animation(model) {
+      const laptopScreen = model.children.find((part) => part.name === 'Frame');
+      laptopScreen.rotation.x = MathUtils.degToRad(90);
+      gsap.to(laptopScreen.rotation, {
+        duration: 1,
+        delay: 0.75,
+        x: 0,
+        ease: 'power2.inOut',
+      });
+    },
+  },
+  {
+    name: 'phone',
+    model: phoneModel,
+    position: [0, 0, -7],
+    ratio: 1 / 2,
+    margin: 0,
+    animation(model) {
+      model.position.z = -8;
+      gsap.to(model.position, {
+        duration: 1,
+        delay: 0.75,
+        z: -7,
+        ease: 'power2.inOut',
+      });
+    },
+  },
+];
 
 const canvasRef = ref(null);
 
+const currentDevice = devices.find((device) => device.name === props.model);
 const createDemo = async () => {
   const renderer = new WebGLRenderer({
     alpha: true,
@@ -37,7 +84,6 @@ const createDemo = async () => {
     camera.updateProjectionMatrix();
   };
   updatedCamera();
-  camera.position.set(0, 0.3, 6);
 
   const scene = new Scene();
 
@@ -51,7 +97,7 @@ const createDemo = async () => {
 
   const [placeholder, gltf] = await Promise.all([
     await textureLoader.loadAsync(props.image),
-    await gltfLoader.loadAsync(laptopModel),
+    await gltfLoader.loadAsync(currentDevice.model),
   ]);
 
   const applyScreenTexture = async (texture, node) => {
@@ -66,9 +112,11 @@ const createDemo = async () => {
     node.material.transparent = true;
     node.material.map = texture;
   };
-  scene.add(gltf.scene);
+  const model = gltf.scene;
+  model.position.set(...currentDevice.position);
+  scene.add(model);
 
-  gltf.scene.traverse(async (node) => {
+  model.traverse(async (node) => {
     if (node.material) {
       node.material.color = new Color(0x1f2025);
     }
@@ -81,14 +129,7 @@ const createDemo = async () => {
       applyScreenTexture(placeholder, placeholderScreen);
     }
 
-    const frameNode = gltf.scene.children.find((part) => part.name === 'Frame');
-    frameNode.rotation.x = MathUtils.degToRad(90);
-    gsap.to(frameNode.rotation, {
-      duration: 1,
-      delay: 0.75,
-      x: 0,
-      ease: 'power2.inOut',
-    });
+    currentDevice.animation(model);
   });
 
   const ambientLight = new AmbientLight(0xffffff, 1.2);
@@ -113,12 +154,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="canvas" ref="canvasRef" />
+  <div
+    class="canvas" ref="canvasRef"
+    :style="`
+      aspect-ratio: ${currentDevice.ratio};
+      --margin: ${currentDevice.margin};
+    `"
+  />
 </template>
 
 <style lang="scss" scoped>
 .canvas {
-  aspect-ratio: 15 / 10;
   z-index: 2;
+
+  $height: 45rem;
+  margin-left: calc(0px + $height * var(--margin));
+  margin-right: calc(0px + $height * var(--margin));
+  height: $height;
+  pointer-events: none;
+  // background-color: red;
 }
 </style>
