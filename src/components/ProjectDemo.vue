@@ -69,7 +69,6 @@ const createDemo = async () => {
     node.material.map = texture;
   };
   const model = gltf.scene;
-  model.position.set(...currentDevice.position);
   scene.add(model);
 
   model.traverse(async (node) => {
@@ -84,12 +83,22 @@ const createDemo = async () => {
       placeholderScreen.material.opacity = 1;
       applyScreenTexture(placeholder, placeholderScreen);
     }
-
-    const hasAnimation = currentDevice.animation;
-    if (hasAnimation) {
-      currentDevice.animation(model);
-    }
   });
+
+  const hasAnimation = currentDevice.animation;
+  if (hasAnimation) {
+    currentDevice.animation(model);
+  }
+
+  const positionSet = currentDevice.position;
+  if (positionSet) {
+    model.position.set(...currentDevice.position);
+  }
+
+  const rotationSet = currentDevice.rotation;
+  if (rotationSet) {
+    model.rotation.set(...rotationSet);
+  }
 
   const ambientLight = new AmbientLight(0xffffff, 1.2);
   const keyLight = new DirectionalLight(0xffffff, 1.1);
