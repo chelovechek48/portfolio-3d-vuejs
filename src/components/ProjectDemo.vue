@@ -3,16 +3,12 @@
 import { ref, onMounted } from 'vue';
 import {
   Scene, PerspectiveCamera, WebGLRenderer,
-  MathUtils,
   TextureLoader,
   AmbientLight, DirectionalLight,
   Color, SRGBColorSpace,
 } from 'three';
 import { DRACOLoader, GLTFLoader } from 'three-stdlib';
-import { gsap } from 'gsap';
-
-import phoneModel from '@/assets/models/phone.glb';
-import laptopModel from '@/assets/models/laptop.glb';
+import devices from '@/scripts/deviceList.js';
 
 const props = defineProps({
   image: {
@@ -23,47 +19,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  ratio: {
-    type: String,
-    required: true,
-  },
 });
-
-const devices = [
-  {
-    name: 'laptop',
-    model: laptopModel,
-    position: [0, -0.3, -6],
-    ratio: 3 / 2,
-    margin: -0.3,
-    animation(model) {
-      const laptopScreen = model.children.find((part) => part.name === 'Frame');
-      laptopScreen.rotation.x = MathUtils.degToRad(90);
-      gsap.to(laptopScreen.rotation, {
-        duration: 1,
-        delay: 0.75,
-        x: 0,
-        ease: 'power2.inOut',
-      });
-    },
-  },
-  {
-    name: 'phone',
-    model: phoneModel,
-    position: [0, 0, -7],
-    ratio: 1 / 2,
-    margin: 0,
-    animation(model) {
-      model.position.z = -8;
-      gsap.to(model.position, {
-        duration: 1,
-        delay: 0.75,
-        z: -7,
-        ease: 'power2.inOut',
-      });
-    },
-  },
-];
 
 const canvasRef = ref(null);
 
@@ -129,7 +85,10 @@ const createDemo = async () => {
       applyScreenTexture(placeholder, placeholderScreen);
     }
 
-    currentDevice.animation(model);
+    const hasAnimation = currentDevice.animation;
+    if (hasAnimation) {
+      currentDevice.animation(model);
+    }
   });
 
   const ambientLight = new AmbientLight(0xffffff, 1.2);
