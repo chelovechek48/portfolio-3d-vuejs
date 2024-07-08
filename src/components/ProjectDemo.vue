@@ -8,6 +8,7 @@ import {
   Color, SRGBColorSpace,
 } from 'three';
 import { DRACOLoader, GLTFLoader } from 'three-stdlib';
+import { gsap } from 'gsap';
 import devices from '@/scripts/deviceList.js';
 
 const props = defineProps({
@@ -94,6 +95,7 @@ const createDemo = async () => {
   if (rotationSet) {
     model.rotation.set(...rotationSet);
   }
+  const { rotationRatio } = currentDevice;
 
   const hasAnimation = currentDevice.animation;
   if (hasAnimation) {
@@ -109,9 +111,21 @@ const createDemo = async () => {
   const lights = [ambientLight, keyLight, fillLight];
   lights.forEach((light) => scene.add(light));
 
+  const canvasPosition = canvasRef.value.getBoundingClientRect();
+  const canvasCenterX = canvasPosition.left + canvasPosition.width / 2;
+  let clientX = window.innerWidth / 2;
+  window.addEventListener('mousemove', (event) => {
+    clientX = event.clientX;
+  });
+
   const animation = () => {
+    gsap.to(model.rotation, {
+      duration: 0.5,
+      ease: 'power2.out',
+      y: ((clientX * 0.5) / canvasCenterX - 0.5) / rotationRatio,
+    });
+
     renderer.render(scene, camera);
-    updatedCamera();
   };
   renderer.setAnimationLoop(animation);
   canvasRef.value.appendChild(renderer.domElement);
@@ -137,10 +151,8 @@ onMounted(() => {
   z-index: 2;
 
   $height: 45rem;
-  margin-left: calc(0px + $height * var(--margin));
-  margin-right: calc(0px + $height * var(--margin));
+  margin-inline: calc(0px + $height * var(--margin));
   height: $height;
   pointer-events: none;
-  // background-color: red;
 }
 </style>

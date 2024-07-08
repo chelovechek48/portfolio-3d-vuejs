@@ -22,8 +22,9 @@ export default [
     name: 'laptop',
     model: macBookModel,
     position: [0, -0.3, -6],
-    ratio: 3 / 2,
-    margin: -0.3,
+    rotationRatio: 1.5,
+    ratio: 7 / 4,
+    margin: -0.43,
     animation(model, target) {
       const gsapTimeline = getTimeline(target);
 
@@ -40,26 +41,18 @@ export default [
   {
     name: 'phone',
     model: iPhoneModel,
-    position: [0, 0, -7],
+    position: [0, 0, -7.2],
+    rotationRatio: 1.5,
     ratio: 1 / 2,
     margin: 0,
   },
   {
     name: 'tablet',
     model: iPadModel,
-    position: [0, 0, -0.65],
-    rotation: [0, toDeg(-150), 0],
+    position: [0, 0, -0.66],
+    rotation: [toDeg(30), 0, 0],
+    rotationRatio: 0.5,
     ratio: 1,
     margin: -0.15,
-    animation(model, target) {
-      const gsapTimeline = getTimeline(target);
-      gsapTimeline.to(model.rotation, {
-        duration: 1,
-        delay: 0,
-        x: toDeg(30),
-        y: toDeg(-35),
-        ease: 'power2.inOut',
-      });
-    },
   },
 ];
