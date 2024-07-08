@@ -85,11 +85,6 @@ const createDemo = async () => {
     }
   });
 
-  const hasAnimation = currentDevice.animation;
-  if (hasAnimation) {
-    currentDevice.animation(model);
-  }
-
   const positionSet = currentDevice.position;
   if (positionSet) {
     model.position.set(...currentDevice.position);
@@ -100,6 +95,11 @@ const createDemo = async () => {
     model.rotation.set(...rotationSet);
   }
 
+  const hasAnimation = currentDevice.animation;
+  if (hasAnimation) {
+    currentDevice.animation(model, canvasRef.value);
+  }
+
   const ambientLight = new AmbientLight(0xffffff, 1.2);
   const keyLight = new DirectionalLight(0xffffff, 1.1);
   const fillLight = new DirectionalLight(0xffffff, 0.8);
@@ -108,6 +108,7 @@ const createDemo = async () => {
   keyLight.position.set(0.5, 0, 0.866);
   const lights = [ambientLight, keyLight, fillLight];
   lights.forEach((light) => scene.add(light));
+
   const animation = () => {
     renderer.render(scene, camera);
     updatedCamera();

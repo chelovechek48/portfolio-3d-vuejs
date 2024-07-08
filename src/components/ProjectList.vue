@@ -12,7 +12,7 @@ const getImage = (imageName) => {
 </script>
 
 <template>
-  <ul class="container">
+  <ul class="works container">
     <li
       v-for="project in projects" :key="project.id"
       class="works__item"
@@ -41,6 +41,7 @@ const getImage = (imageName) => {
 @use '@vars/colors';
 
 .works {
+  padding-bottom: 1000px;
   &__item {
     display: flex;
     justify-content: space-between;
