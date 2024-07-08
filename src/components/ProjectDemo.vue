@@ -9,7 +9,7 @@ import {
 } from 'three';
 import { DRACOLoader, GLTFLoader } from 'three-stdlib';
 import { gsap } from 'gsap';
-import devices from '@/scripts/deviceList.js';
+import devices from '@js/deviceList.js';
 
 const props = defineProps({
   image: {

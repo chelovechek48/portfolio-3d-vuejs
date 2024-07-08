@@ -23,10 +23,11 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
-      { find: '@js', replacement: fileURLToPath(new URL('./src/js', import.meta.url)) },
+      { find: '@js', replacement: fileURLToPath(new URL('./src/scripts', import.meta.url)) },
       { find: '@components', replacement: fileURLToPath(new URL('./src/components', import.meta.url)) },
       { find: '@views', replacement: fileURLToPath(new URL('./src/views', import.meta.url)) },
       { find: '@images', replacement: fileURLToPath(new URL('./src/assets/images', import.meta.url)) },
+      { find: '@models', replacement: fileURLToPath(new URL('./src/assets/models', import.meta.url)) },
       { find: '@icons', replacement: fileURLToPath(new URL('./src/assets/icons', import.meta.url)) },
       { find: '@fonts', replacement: fileURLToPath(new URL('./src/assets/fonts', import.meta.url)) },
       { find: '@styles', replacement: fileURLToPath(new URL('./src/styles', import.meta.url)) },
