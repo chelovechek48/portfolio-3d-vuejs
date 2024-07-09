@@ -161,8 +161,8 @@ onMounted(() => {
   height: var(--height);
   pointer-events: none;
 
+  transition: opacity 500ms ease;
   &_is-loaded {
-    transition: opacity 1s ease;
     &_true {
       opacity: 1;
     }
