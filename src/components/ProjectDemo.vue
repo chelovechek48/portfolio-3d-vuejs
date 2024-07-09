@@ -23,6 +23,7 @@ const props = defineProps({
 });
 
 const canvasRef = ref(null);
+const canvasOpacity = ref(0);
 
 const currentDevice = devices.find((device) => device.name === props.model);
 const addModel = () => {
@@ -143,6 +144,7 @@ const addModel = () => {
           setAnimation();
           setLight();
 
+          canvasOpacity.value = 1;
           scene.add(model);
           observer.unobserve(canvasRef.value);
         }());
@@ -163,16 +165,21 @@ onMounted(() => {
   <div
     class="canvas" ref="canvasRef"
     :style="`
-      aspect-ratio: ${currentDevice.ratio};
+      --aspect-ratio: ${currentDevice.ratio};
       --margin: ${currentDevice.margin};
+      --opacity: ${canvasOpacity};
     `"
   />
 </template>
 
 <style lang="scss" scoped>
 .canvas {
-  margin-inline: calc(0px + var(--height) * var(--margin));
   height: var(--height);
+  aspect-ratio: var(--aspect-ratio);
+  margin-inline: calc(0px + var(--height) * var(--margin));
   pointer-events: none;
+
+  opacity: var(--opacity);
+  transition: opacity 250ms ease;
 }
 </style>
