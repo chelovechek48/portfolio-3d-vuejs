@@ -23,10 +23,10 @@ const props = defineProps({
 });
 
 const canvasRef = ref(null);
-const imageIsLoaded = ref(false);
 
 const currentDevice = devices.find((device) => device.name === props.model);
-const createDemo = async () => {
+const addModel = () => {
+  const scene = new Scene();
   const renderer = new WebGLRenderer({
     alpha: true,
     powerPreference: 'high-performance',
@@ -43,110 +43,125 @@ const createDemo = async () => {
   };
   updatedCamera();
 
-  const scene = new Scene();
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const isReadyToLoad = entry.isIntersecting;
+      if (isReadyToLoad) {
+        (async function loadModel() {
+          const setModel = async () => {
+            const dracoLoader = new DRACOLoader();
+            dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
 
-  const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+            const gltfLoader = new GLTFLoader();
+            gltfLoader.setDRACOLoader(dracoLoader);
 
-  const gltfLoader = new GLTFLoader();
-  gltfLoader.setDRACOLoader(dracoLoader);
+            const modelObject = await gltfLoader.loadAsync(currentDevice.model);
+            return modelObject.scene;
+          };
+          const model = await setModel();
 
-  const gltf = await gltfLoader.loadAsync(currentDevice.model);
+          const setTexture = () => {
+            model.traverse(async (node) => {
+              if (node.material) {
+                node.material.color = new Color(0x1f2025);
+              }
 
-  const applyScreenTexture = async (texture, node) => {
-    texture.colorSpace = SRGBColorSpace;
-    texture.flipY = false;
-    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    texture.generateMipmaps = false;
+              if (node.name === 'Screen') {
+                node.material.opacity = 1;
+                (async function loadTexture() {
+                  const textureLoader = new TextureLoader();
+                  const texture = await textureLoader.loadAsync(props.image);
+                  texture.colorSpace = SRGBColorSpace;
+                  texture.flipY = false;
+                  texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                  texture.generateMipmaps = false;
 
-    await renderer.initTexture(texture);
+                  await renderer.initTexture(texture);
 
-    node.material.color = new Color('white');
-    node.material.transparent = true;
-    node.material.map = texture;
-  };
-  const model = gltf.scene;
-  scene.add(model);
+                  node.material.color = new Color('white');
+                  node.material.transparent = true;
+                  node.material.map = texture;
 
-  model.traverse(async (node) => {
-    if (node.material) {
-      node.material.color = new Color(0x1f2025);
-    }
+                  observer.unobserve(canvasRef.value);
+                }());
+              }
+            });
+          };
 
-    if (node.name === 'Screen') {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          node.material.opacity = 1;
-          if (entry.isIntersecting) {
-            (async function setTexture() {
-              const textureLoader = new TextureLoader();
-              const placeholder = await textureLoader.loadAsync(props.image);
-              applyScreenTexture(placeholder, node);
-              observer.unobserve(canvasRef.value);
-              imageIsLoaded.value = true;
-            }());
-          }
-        });
-      });
+          const setLayout = () => {
+            const layout = {
+              position: currentDevice.position,
+              rotation: currentDevice.rotation,
+            };
+            const layoutArray = Object.entries(layout);
+            layoutArray.forEach((el) => {
+              const layoutName = el[0];
+              const layoutValue = el[1] || [0, 0, 0];
+              model[layoutName].set(...layoutValue);
+            });
+          };
 
-      observer.observe(canvasRef.value);
-    }
-  });
+          const setAnimation = () => {
+            const hasShowAnimation = currentDevice.animation;
+            if (hasShowAnimation) {
+              currentDevice.animation(model, canvasRef.value);
+            }
 
-  const positionSet = currentDevice.position;
-  if (positionSet) {
-    model.position.set(...currentDevice.position);
-  }
+            const canvasPosition = canvasRef.value.getBoundingClientRect();
+            const canvasCenterX = canvasPosition.left + canvasPosition.width / 2;
+            let clientX = window.innerWidth / 2;
+            window.addEventListener('mousemove', (event) => {
+              clientX = event.clientX;
+            });
 
-  const rotationSet = currentDevice.rotation;
-  if (rotationSet) {
-    model.rotation.set(...rotationSet);
-  }
-  const { rotationRatio } = currentDevice;
+            const { rotationSensitivityRatio } = currentDevice;
+            const animation = () => {
+              gsap.to(model.rotation, {
+                duration: 0.5,
+                ease: 'power2.out',
+                y: ((clientX * 0.5) / canvasCenterX - 0.5) / rotationSensitivityRatio,
+              });
 
-  const hasAnimation = currentDevice.animation;
-  if (hasAnimation) {
-    currentDevice.animation(model, canvasRef.value);
-  }
+              renderer.render(scene, camera);
+            };
+            renderer.setAnimationLoop(animation);
+          };
 
-  const ambientLight = new AmbientLight(0xffffff, 1.2);
-  const keyLight = new DirectionalLight(0xffffff, 1.1);
-  const fillLight = new DirectionalLight(0xffffff, 0.8);
+          const setLight = () => {
+            const ambientLight = new AmbientLight(0xffffff, 1.2);
+            const keyLight = new DirectionalLight(0xffffff, 1.1);
+            const fillLight = new DirectionalLight(0xffffff, 0.8);
 
-  fillLight.position.set(-6, 2, 2);
-  keyLight.position.set(0.5, 0, 0.866);
-  const lights = [ambientLight, keyLight, fillLight];
-  lights.forEach((light) => scene.add(light));
+            fillLight.position.set(-6, 2, 2);
+            keyLight.position.set(0.5, 0, 0.866);
+            const lights = [ambientLight, keyLight, fillLight];
+            lights.forEach((light) => scene.add(light));
+          };
 
-  const canvasPosition = canvasRef.value.getBoundingClientRect();
-  const canvasCenterX = canvasPosition.left + canvasPosition.width / 2;
-  let clientX = window.innerWidth / 2;
-  window.addEventListener('mousemove', (event) => {
-    clientX = event.clientX;
-  });
+          setTexture();
+          setLayout();
+          setAnimation();
+          setLight();
 
-  const animation = () => {
-    gsap.to(model.rotation, {
-      duration: 0.5,
-      ease: 'power2.out',
-      y: ((clientX * 0.5) / canvasCenterX - 0.5) / rotationRatio,
+          scene.add(model);
+          observer.unobserve(canvasRef.value);
+        }());
+      }
     });
+  });
 
-    renderer.render(scene, camera);
-  };
-  renderer.setAnimationLoop(animation);
+  observer.observe(canvasRef.value);
   canvasRef.value.appendChild(renderer.domElement);
 };
 
 onMounted(() => {
-  createDemo();
+  addModel();
 });
 </script>
 
 <template>
   <div
     class="canvas" ref="canvasRef"
-    :class="imageIsLoaded ? 'canvas_is-loaded_true' : 'canvas_is-loaded_false'"
     :style="`
       aspect-ratio: ${currentDevice.ratio};
       --margin: ${currentDevice.margin};
@@ -159,15 +174,5 @@ onMounted(() => {
   margin-inline: calc(0px + var(--height) * var(--margin));
   height: var(--height);
   pointer-events: none;
-
-  transition: opacity 500ms ease;
-  &_is-loaded {
-    &_true {
-      opacity: 1;
-    }
-    &_false {
-      opacity: 0;
-    }
-  }
 }
 </style>
