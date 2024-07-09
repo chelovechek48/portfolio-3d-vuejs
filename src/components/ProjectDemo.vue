@@ -45,8 +45,6 @@ const createDemo = async () => {
 
   const scene = new Scene();
 
-  const textureLoader = new TextureLoader();
-
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
 
@@ -81,6 +79,7 @@ const createDemo = async () => {
           node.material.opacity = 1;
           if (entry.isIntersecting) {
             (async function setTexture() {
+              const textureLoader = new TextureLoader();
               const placeholder = await textureLoader.loadAsync(props.image);
               applyScreenTexture(placeholder, node);
               observer.unobserve(canvasRef.value);
