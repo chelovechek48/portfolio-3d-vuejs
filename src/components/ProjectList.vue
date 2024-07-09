@@ -30,6 +30,7 @@ const getImage = (imageName) => {
         </a>
       </div>
       <ProjectDemo
+        class="works__demo"
         :image="getImage(project.image)"
         :model="project.model"
       />
@@ -55,6 +56,11 @@ const getImage = (imageName) => {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
+    z-index: 1;
+  }
+  &__demo {
+    z-index: 2;
+    --height: 45rem;
   }
 
   &__span {

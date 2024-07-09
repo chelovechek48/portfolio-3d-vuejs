@@ -23,6 +23,7 @@ const props = defineProps({
 });
 
 const canvasRef = ref(null);
+const imageIsLoaded = ref(false);
 
 const currentDevice = devices.find((device) => device.name === props.model);
 const createDemo = async () => {
@@ -52,10 +53,7 @@ const createDemo = async () => {
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
 
-  const [placeholder, gltf] = await Promise.all([
-    await textureLoader.loadAsync(props.image),
-    await gltfLoader.loadAsync(currentDevice.model),
-  ]);
+  const gltf = await gltfLoader.loadAsync(currentDevice.model);
 
   const applyScreenTexture = async (texture, node) => {
     texture.colorSpace = SRGBColorSpace;
@@ -65,7 +63,7 @@ const createDemo = async () => {
 
     await renderer.initTexture(texture);
 
-    node.material.color = new Color(0xffffff);
+    node.material.color = new Color('white');
     node.material.transparent = true;
     node.material.map = texture;
   };
@@ -78,11 +76,21 @@ const createDemo = async () => {
     }
 
     if (node.name === 'Screen') {
-      const placeholderScreen = node.clone();
-      node.parent.add(placeholderScreen);
-      placeholderScreen.material = node.material.clone();
-      placeholderScreen.material.opacity = 1;
-      applyScreenTexture(placeholder, placeholderScreen);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          node.material.opacity = 1;
+          if (entry.isIntersecting) {
+            (async function setTexture() {
+              const placeholder = await textureLoader.loadAsync(props.image);
+              applyScreenTexture(placeholder, node);
+              observer.unobserve(canvasRef.value);
+              imageIsLoaded.value = true;
+            }());
+          }
+        });
+      });
+
+      observer.observe(canvasRef.value);
     }
   });
 
@@ -139,6 +147,7 @@ onMounted(() => {
 <template>
   <div
     class="canvas" ref="canvasRef"
+    :class="imageIsLoaded ? 'canvas_is-loaded_true' : 'canvas_is-loaded_false'"
     :style="`
       aspect-ratio: ${currentDevice.ratio};
       --margin: ${currentDevice.margin};
@@ -148,11 +157,18 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .canvas {
-  z-index: 2;
-
-  $height: 45rem;
-  margin-inline: calc(0px + $height * var(--margin));
-  height: $height;
+  margin-inline: calc(0px + var(--height) * var(--margin));
+  height: var(--height);
   pointer-events: none;
+
+  &_is-loaded {
+    transition: opacity 1s ease;
+    &_true {
+      opacity: 1;
+    }
+    &_false {
+      opacity: 0;
+    }
+  }
 }
 </style>
