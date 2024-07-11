@@ -116,19 +116,38 @@ const addModel = () => {
               currentDevice.animation(model, canvasRef.value);
             }
 
-            const canvasPosition = canvasRef.value.getBoundingClientRect();
-            const canvasCenterX = canvasPosition.left + canvasPosition.width / 2;
-            let clientX = window.innerWidth / 2;
+            const viewportData = {
+              width: undefined,
+              mouseX: undefined,
+              centerX: undefined,
+            };
+
+            const getViewportData = () => {
+              viewportData.width = window.innerWidth;
+              viewportData.mouseX = window.innerWidth / 2;
+
+              const canvasDOM = canvasRef.value.getBoundingClientRect();
+              viewportData.centerX = canvasDOM.left + canvasDOM.width / 2;
+            };
+            getViewportData();
+            window.addEventListener('resize', getViewportData);
             window.addEventListener('mousemove', (event) => {
-              clientX = event.clientX;
+              const isTouch = window.matchMedia('(pointer: coarse)').matches;
+              if (!isTouch) {
+                viewportData.mouseX = event.clientX;
+              } else {
+                viewportData.mouseX = window.innerWidth / 2;
+              }
             });
 
-            const { rotationSensitivityRatio } = currentDevice;
             const animation = () => {
+              const { mouseX, centerX, width } = viewportData;
+              const sensitivity = currentDevice.rotationSensitivityRatio;
+              const rotationValue = (mouseX - centerX) / width;
               gsap.to(model.rotation, {
                 duration: 0.5,
                 ease: 'power2.out',
-                y: ((clientX * 0.5) / canvasCenterX - 0.5) / rotationSensitivityRatio,
+                y: rotationValue * sensitivity,
               });
 
               renderer.render(scene, camera);

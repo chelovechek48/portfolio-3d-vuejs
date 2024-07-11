@@ -22,7 +22,7 @@ export default [
     name: 'laptop',
     model: macBookModel,
     position: [0, -0.2, -6],
-    rotationSensitivityRatio: 1.5,
+    rotationSensitivityRatio: 1,
     ratio: 7 / 4,
     margin: {
       inline: -0.25,
@@ -45,7 +45,7 @@ export default [
     name: 'phone',
     model: iPhoneModel,
     position: [0, 0, -7.2],
-    rotationSensitivityRatio: 1.5,
+    rotationSensitivityRatio: 1,
     ratio: 1 / 2,
     margin: {
       inline: 0,
@@ -57,7 +57,7 @@ export default [
     model: iPadModel,
     position: [0, 0, -0.66],
     rotation: [toDeg(30), 0, 0],
-    rotationSensitivityRatio: 0.5,
+    rotationSensitivityRatio: 1.5,
     ratio: 1,
     margin: {
       inline: -0.165,
