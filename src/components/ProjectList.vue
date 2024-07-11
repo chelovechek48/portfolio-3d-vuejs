@@ -12,12 +12,12 @@ const getImage = (imageName) => {
 </script>
 
 <template>
-  <ul class="container">
+  <ul class="works__list container">
     <li
       v-for="project in projects" :key="project.id"
       class="works__item"
     >
-      <div class="works__text">
+      <div class="works__text" ref="text">
         <span class="works__span" />
         <h2 class="works__title">
           {{ project.title }}
@@ -40,27 +40,33 @@ const getImage = (imageName) => {
 
 <style lang="scss" scoped>
 @use '@vars/colors';
+@use '@vars/breakpoints' as *;
 
 .works {
   &__item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 3rem;
+    gap: clamp(1rem, 3vw, 3rem);
     &:nth-child(even) {
       flex-direction: row-reverse;
     }
+
+    flex-wrap: wrap;
+    justify-content: center;
   }
   &__text {
+    flex: 1 0 min(25rem, 100%);
+    // max-width: 45rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
+    gap: clamp(1rem, 2vw, 1.5rem);
     z-index: 1;
   }
   &__demo {
     z-index: 2;
-    --height: 45rem;
+    --height: clamp(32rem, 45vw, 45rem);
   }
 
   &__span {
@@ -70,6 +76,7 @@ const getImage = (imageName) => {
 
     display: flex;
     align-items: flex-end;
+    margin-top: 1.5rem;
 
     &::before {
       content: '';
@@ -82,17 +89,17 @@ const getImage = (imageName) => {
   }
 
   &__title {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
   }
   &__description {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
     line-height: 1.5;
   }
   &__button {
     color: var(--color-background);
     z-index: 1;
     padding: 1rem 1.5rem;
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
     font-weight: 500;
 
     position: relative;

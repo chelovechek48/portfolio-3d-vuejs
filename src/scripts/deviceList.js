@@ -24,7 +24,8 @@ export default [
     position: [0, -0.3, -6],
     rotationSensitivityRatio: 1.5,
     ratio: 7 / 4,
-    margin: -0.43,
+    // margin: -0.25,
+    margin: -0.24,
     animation(model, target) {
       const gsapTimeline = getTimeline(target);
 
@@ -53,6 +54,6 @@ export default [
     rotation: [toDeg(30), 0, 0],
     rotationSensitivityRatio: 0.5,
     ratio: 1,
-    margin: -0.15,
+    margin: -0.165,
   },
 ];

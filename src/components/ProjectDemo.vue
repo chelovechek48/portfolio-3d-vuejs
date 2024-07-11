@@ -29,20 +29,28 @@ const currentDevice = devices.find((device) => device.name === props.model);
 const addModel = () => {
   const scene = new Scene();
   const renderer = new WebGLRenderer({
+    canvas: canvasRef.value,
     alpha: true,
     powerPreference: 'high-performance',
     failIfMajorPerformanceCaveat: true,
   });
 
-  const camera = new PerspectiveCamera(36, window.clientWidth / window.clientHeight, 0.1, 100);
+  const canvasSizes = {
+    width: canvasRef.value.offsetWidth,
+    height: canvasRef.value.offsetHeight,
+  };
+  const camera = new PerspectiveCamera(36, canvasSizes.width / canvasSizes.height, 0.1, 100);
   const updatedCamera = () => {
-    const width = canvasRef.value.offsetWidth;
-    const height = canvasRef.value.offsetHeight;
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
+    renderer.setSize(canvasSizes.width, canvasSizes.height);
     camera.updateProjectionMatrix();
   };
   updatedCamera();
+
+  window.addEventListener('resize', () => {
+    canvasSizes.width = canvasRef.value.offsetWidth;
+    canvasSizes.height = canvasRef.value.offsetHeight;
+    updatedCamera();
+  });
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -153,7 +161,6 @@ const addModel = () => {
   });
 
   observer.observe(canvasRef.value);
-  canvasRef.value.appendChild(renderer.domElement);
 };
 
 onMounted(() => {
@@ -162,7 +169,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
+  <canvas
     class="canvas" ref="canvasRef"
     :style="`
       --aspect-ratio: ${currentDevice.ratio};
@@ -173,13 +180,29 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '@vars/breakpoints' as *;
+
 .canvas {
-  height: var(--height);
-  aspect-ratio: var(--aspect-ratio);
-  margin-inline: calc(0px + var(--height) * var(--margin));
+  @media (min-width: $mobile) {
+    $width: calc(var(--height) * var(--aspect-ratio));
+    width: $width !important;
+    height: var(--height) !important;
+    margin-inline: calc($width * var(--margin));
+  }
+  @media (max-width: $mobile) {
+    $visible-width: calc(100vw - $container-padding * 2);
+
+    $margin-inline: calc(100 * var(--margin));
+    $ratio: calc(100 / (100 + $margin-inline * 2));
+    $width: calc($visible-width * $ratio);
+
+    width: $width !important;
+    height: calc($width / var(--aspect-ratio)) !important;
+  }
   pointer-events: none;
 
   opacity: var(--opacity);
   transition: opacity 250ms ease;
+  background-color: rgba(red, 0.25);
 }
 </style>

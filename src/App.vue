@@ -5,7 +5,7 @@ import ProjectList from '@components/ProjectList.vue';
 
 <template>
   <div class="page">
-    <AppHero />
+    <!-- <AppHero /> -->
     <ProjectList />
   </div>
 </template>
