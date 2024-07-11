@@ -100,7 +100,7 @@ const addModel = () => {
           const setLayout = () => {
             const layout = {
               position: currentDevice.position,
-              rotation: currentDevice.rotation,
+              rotation: currentDevice.rotation.coordinates,
             };
             const layoutArray = Object.entries(layout);
             layoutArray.forEach((el) => {
@@ -142,7 +142,7 @@ const addModel = () => {
 
             const animation = () => {
               const { mouseX, centerX, width } = viewportData;
-              const sensitivity = currentDevice.rotationSensitivityRatio;
+              const { sensitivity } = currentDevice.rotation;
               const rotationValue = (mouseX - centerX) / width;
               gsap.to(model.rotation, {
                 duration: 0.5,

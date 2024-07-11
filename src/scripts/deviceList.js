@@ -21,9 +21,12 @@ export default [
   {
     name: 'laptop',
     model: macBookModel,
-    position: [0, -0.2, -6],
-    rotationSensitivityRatio: 1,
     ratio: 7 / 4,
+    position: [0, -0.2, -6],
+    rotation: {
+      coordinates: null,
+      sensitivity: 1,
+    },
     margin: {
       inline: -0.25,
       block: -0.1,
@@ -44,9 +47,12 @@ export default [
   {
     name: 'phone',
     model: iPhoneModel,
-    position: [0, 0, -7.2],
-    rotationSensitivityRatio: 1,
     ratio: 1 / 2,
+    position: [0, 0, -7.2],
+    rotation: {
+      coordinates: null,
+      sensitivity: 1,
+    },
     margin: {
       inline: 0,
       block: -0.045,
@@ -55,10 +61,12 @@ export default [
   {
     name: 'tablet',
     model: iPadModel,
-    position: [0, 0, -0.66],
-    rotation: [toDeg(30), 0, 0],
-    rotationSensitivityRatio: 1.5,
     ratio: 1,
+    position: [0, 0, -0.66],
+    rotation: {
+      coordinates: [toDeg(30), 0, 0],
+      sensitivity: 1.5,
+    },
     margin: {
       inline: -0.165,
       block: -0.19,
