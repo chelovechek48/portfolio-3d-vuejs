@@ -184,7 +184,7 @@ onMounted(() => {
 @use '@vars/breakpoints' as *;
 
 .canvas {
-  @media (min-width: $mobile) {
+  @media (min-width: calc($mobile + 1px)) {
     --height: clamp(32rem, 45vw, 45rem);
     --width: calc(var(--height) * var(--aspect-ratio));
 
