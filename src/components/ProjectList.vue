@@ -43,16 +43,24 @@ const getImage = (imageName) => {
 @use '@vars/breakpoints' as *;
 
 .works {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
   &__item {
     display: flex;
     align-items: center;
-    gap: clamp(1rem, 3vw, 3rem);
+    // gap: clamp(1rem, 3vw, 3rem);
+    gap: 1rem;
     &:nth-child(even) {
       flex-direction: row-reverse;
     }
 
     flex-wrap: wrap;
     justify-content: center;
+
+    background-color: blue;
   }
   &__text {
     flex: 1 0 min(25rem, 100%);
@@ -66,7 +74,6 @@ const getImage = (imageName) => {
   }
   &__demo {
     z-index: 2;
-    --height: clamp(32rem, 45vw, 45rem);
   }
 
   &__span {

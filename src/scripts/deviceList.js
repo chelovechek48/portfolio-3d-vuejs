@@ -21,10 +21,13 @@ export default [
   {
     name: 'laptop',
     model: macBookModel,
-    position: [0, -0.3, -6],
+    position: [0, -0.2, -6],
     rotationSensitivityRatio: 1.5,
     ratio: 7 / 4,
-    margin: -0.25,
+    margin: {
+      inline: -0.25,
+      block: -0.1,
+    },
     animation(model, target) {
       const gsapTimeline = getTimeline(target);
 
@@ -44,7 +47,10 @@ export default [
     position: [0, 0, -7.2],
     rotationSensitivityRatio: 1.5,
     ratio: 1 / 2,
-    margin: 0,
+    margin: {
+      inline: 0,
+      block: -0.045,
+    },
   },
   {
     name: 'tablet',
@@ -53,6 +59,9 @@ export default [
     rotation: [toDeg(30), 0, 0],
     rotationSensitivityRatio: 0.5,
     ratio: 1,
-    margin: -0.165,
+    margin: {
+      inline: -0.165,
+      block: -0.19,
+    },
   },
 ];

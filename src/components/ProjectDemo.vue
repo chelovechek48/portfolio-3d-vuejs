@@ -173,7 +173,8 @@ onMounted(() => {
     class="canvas" ref="canvasRef"
     :style="`
       --aspect-ratio: ${currentDevice.ratio};
-      --margin: ${currentDevice.margin};
+      --margin-inline: ${currentDevice.margin.inline};
+      --margin-block: ${currentDevice.margin.block};
       --opacity: ${canvasOpacity};
     `"
   />
@@ -184,25 +185,28 @@ onMounted(() => {
 
 .canvas {
   @media (min-width: $mobile) {
-    $width: calc(var(--height) * var(--aspect-ratio));
-    width: $width !important;
-    height: var(--height) !important;
-    margin-inline: calc($width * var(--margin));
+    --height: clamp(32rem, 45vw, 45rem);
+    --width: calc(var(--height) * var(--aspect-ratio));
+
+    margin-inline: calc(var(--width) * var(--margin-inline));
   }
   @media (max-width: $mobile) {
     $visible-width: calc(100vw - $container-padding * 2);
-
-    $margin-inline: calc(100 * var(--margin));
+    $margin-inline: calc(100 * var(--margin-inline));
     $ratio: calc(100 / (100 + $margin-inline * 2));
-    $width: calc($visible-width * $ratio);
 
-    width: $width !important;
-    height: calc($width / var(--aspect-ratio)) !important;
+    --width: calc(#{$visible-width} * #{$ratio});
+    --height: calc(var(--width) / var(--aspect-ratio));
   }
   pointer-events: none;
 
+  width: var(--width) !important;
+  height: var(--height) !important;
+  margin-block: calc(var(--height) * var(--margin-block));
+
   opacity: var(--opacity);
   transition: opacity 250ms ease;
-  background-color: rgba(red, 0.25);
+
+  background-color: rgba(red, 0.35);
 }
 </style>

@@ -5,7 +5,7 @@ import ProjectList from '@components/ProjectList.vue';
 
 <template>
   <div class="page">
-    <!-- <AppHero /> -->
+    <AppHero />
     <ProjectList />
   </div>
 </template>
@@ -40,5 +40,6 @@ import ProjectList from '@components/ProjectList.vue';
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 </style>
