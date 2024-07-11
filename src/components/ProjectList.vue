@@ -46,29 +46,24 @@ const getImage = (imageName) => {
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
   }
   &__item {
     display: flex;
     align-items: center;
-    // gap: clamp(1rem, 3vw, 3rem);
-    gap: 1rem;
+    gap: clamp(1rem, 3vw, 3rem);
     &:nth-child(even) {
       flex-direction: row-reverse;
     }
 
     flex-wrap: wrap;
     justify-content: center;
-
-    background-color: blue;
   }
   &__text {
     flex: 1 0 min(25rem, 100%);
-    // max-width: 45rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
     gap: clamp(1rem, 2vw, 1.5rem);
     z-index: 1;
   }

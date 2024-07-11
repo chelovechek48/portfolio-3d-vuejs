@@ -206,7 +206,5 @@ onMounted(() => {
 
   opacity: var(--opacity);
   transition: opacity 250ms ease;
-
-  background-color: rgba(red, 0.35);
 }
 </style>
