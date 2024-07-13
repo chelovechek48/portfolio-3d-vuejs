@@ -14,7 +14,7 @@ const getImage = (imageName) => {
 <template>
   <ul class="works__list container">
     <li
-      v-for="project in projects" :key="project.id"
+      v-for="project in projects" :key="project.link"
       class="works__item"
     >
       <div class="works__text" ref="text">
@@ -25,7 +25,7 @@ const getImage = (imageName) => {
         <p class="works__description">
           {{ project.description }}
         </p>
-        <a class="works__button" href="#">
+        <a class="works__button" :href="project.link" target="_blank">
           Открыть демо
         </a>
       </div>
