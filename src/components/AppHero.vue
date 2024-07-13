@@ -84,10 +84,11 @@ const contacts = [
   }
 
   &__contacts {
+    max-width: $tablet;
+
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-
     gap: 0.5em 0.75em;
 
     font-size: clamp(1.25rem, 2vw, 2rem);
