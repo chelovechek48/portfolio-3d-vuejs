@@ -1,5 +1,4 @@
 <script setup>
-import CanvasSphere from '@components/CanvasSphere.vue';
 import AppSvg from '@components/AppSvg.vue';
 
 const contacts = [
@@ -68,12 +67,6 @@ const contacts = [
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &__animated-sphere {
-    z-index: 1;
-    position: absolute;
-    pointer-events: none;
-  }
 
   &__container {
     z-index: 2;
