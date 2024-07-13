@@ -1,5 +1,6 @@
 <script setup>
 import ProjectDemo from '@components/ProjectDemo.vue';
+import AppSvg from '@components/AppSvg.vue';
 
 import projects from '@/assets/json/projects.json';
 
@@ -25,9 +26,14 @@ const getImage = (imageName) => {
         <p class="works__description">
           {{ project.description }}
         </p>
-        <a class="works__button" :href="project.link" target="_blank">
-          Открыть демо
-        </a>
+        <div class="works__button-list">
+          <a class="works__button works__button_git" :href="project.link.github" target="_blank">
+            <AppSvg icon-id="github" />
+          </a>
+          <a class="works__button works__button_demo" :href="project.link.demo" target="_blank">
+            Открыть демо
+          </a>
+        </div>
       </div>
       <ProjectDemo
         class="works__demo"
@@ -98,27 +104,46 @@ const getImage = (imageName) => {
     line-height: 1.5;
   }
   &__button {
-    color: var(--color-background);
-    z-index: 1;
-    padding: 1rem 1.5rem;
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
-    font-weight: 500;
+    &-list {
+      display: flex;
+      gap: clamp(1rem, 1.5vw, 1.25rem);
+    }
 
-    position: relative;
-    &::before {
-      content: '';
-      z-index: -1;
-      position: absolute;
-      inset: 0;
+    $size: clamp(1.25rem, 2vw, 1.5rem);
+    $line-height: 1.3;
+
+    color: var(--color-background);
+
+    &_git {
+      height: calc($size * $line-height);
       background-color: var(--color-aqua);
-      $clip-padding: 1.25rem;
-      clip-path: polygon(
-        100% 0,
-        100% calc(100% - $clip-padding),
-        calc(100% - $clip-padding) 100%,
-        0 100%,
-        0 0
-      );
+      box-sizing: content-box;
+      padding: 1rem;
+    }
+
+    &_demo {
+      padding: 1rem 1.5rem;
+      font-size: $size;
+      font-weight: 500;
+      line-height: $line-height;
+
+      z-index: 1;
+      position: relative;
+      &::before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        inset: 0;
+        background-color: var(--color-aqua);
+        $clip-padding: 1.25rem;
+        clip-path: polygon(
+          100% 0,
+          100% calc(100% - $clip-padding),
+          calc(100% - $clip-padding) 100%,
+          0 100%,
+          0 0
+        );
+      }
     }
   }
 }
