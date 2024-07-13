@@ -1,5 +1,5 @@
 <script setup>
-import ProjectDemo from '@components/ProjectDemo.vue';
+import CanvasModel from '@components/CanvasModel.vue';
 import AppSvg from '@components/AppSvg.vue';
 
 import projects from '@/assets/json/projects.json';
@@ -35,7 +35,7 @@ const getImage = (imageName) => {
           </a>
         </div>
       </div>
-      <ProjectDemo
+      <CanvasModel
         class="works__demo"
         :image="getImage(project.image)"
         :model="project.model"
