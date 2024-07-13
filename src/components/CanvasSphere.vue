@@ -5,6 +5,7 @@ import {
   Scene, PerspectiveCamera, SphereGeometry, Mesh, MeshStandardMaterial, WebGLRenderer,
   UniformsUtils, DirectionalLight, AmbientLight,
 } from 'three';
+import { gsap } from 'gsap';
 
 import vertexShader from '@/assets/shaders/sphere-vertex.glsl';
 
@@ -25,6 +26,10 @@ const createSphere = (SphereFill) => {
     camera.updateProjectionMatrix();
   };
   updatedCamera();
+  window.addEventListener('resize', () => {
+    updatedCamera();
+  });
+
   camera.position.z = 55;
 
   const scene = new Scene();
@@ -63,11 +68,24 @@ const createSphere = (SphereFill) => {
     if (uniforms !== undefined) {
       uniforms.time.value = 0.00005 * (Date.now() - startDate);
     }
-
-    updatedCamera();
   };
   renderer.setAnimationLoop(animate);
   canvasRef.value.appendChild(renderer.domElement);
+
+  const gsapTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: 'body',
+      start: 'top',
+      end: 'bottom bottom',
+      scrub: true,
+    },
+  });
+
+  gsapTimeline.to(canvasRef.value, {
+    duration: 1,
+    delay: 0,
+    opacity: 0.5,
+  });
 };
 
 onMounted(() => {
@@ -79,6 +97,8 @@ onMounted(() => {
 </template>
 <style lang="scss" scoped>
 .canvas {
+  z-index: 1;
+  position: fixed;
   inset: 0 0 -400px 0;
 }
 </style>

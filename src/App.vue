@@ -1,10 +1,12 @@
 <script setup>
 import AppHero from '@components/AppHero.vue';
 import ProjectList from '@components/ProjectList.vue';
+import CanvasSphere from '@components/CanvasSphere.vue';
 </script>
 
 <template>
   <div class="page">
+    <CanvasSphere />
     <AppHero />
     <ProjectList />
   </div>
