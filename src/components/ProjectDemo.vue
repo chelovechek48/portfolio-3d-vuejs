@@ -31,7 +31,6 @@ const addModel = () => {
   const renderer = new WebGLRenderer({
     canvas: canvasRef.value,
     alpha: true,
-    powerPreference: 'high-performance',
     failIfMajorPerformanceCaveat: true,
   });
 

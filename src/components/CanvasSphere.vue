@@ -12,7 +12,6 @@ const canvasRef = ref(null);
 const createSphere = (SphereFill) => {
   const renderer = new WebGLRenderer({
     alpha: true,
-    powerPreference: 'high-performance',
     failIfMajorPerformanceCaveat: true,
   });
   renderer.setPixelRatio(1);
