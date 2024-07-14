@@ -59,6 +59,7 @@ const contacts = [
 <style lang="scss" scoped>
 @use '@vars/breakpoints' as *;
 @use '@vars/mixins' as *;
+@use '@vars/colors';
 
 .hero {
   padding-block: 5rem;
@@ -99,6 +100,13 @@ const contacts = [
       display: inilne-flex;
       align-items: center;
       gap: 0.25em;
+
+      &:focus-visible {
+        outline-style: solid;
+        outline-width: 0.25rem;
+        outline-offset: 0.5rem;
+        outline-color: colors.$white;
+      }
 
       &_dynamical::after {
         @media (min-width: calc($mobile + 1px)) {
