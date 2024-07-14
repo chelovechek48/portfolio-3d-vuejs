@@ -78,35 +78,35 @@ const addModel = () => {
               if (node.name === 'Screen') {
                 node.material.opacity = 1;
                 (async function loadTexture() {
-                  const setTextureProperties = (texture) => {
-                    texture.colorSpace = SRGBColorSpace;
-                    texture.flipY = false;
-                    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-                    texture.generateMipmaps = false;
-
-                    node.material.color = new Color('white');
-                    node.material.transparent = true;
-                    node.material.map = texture;
-
-                    canvasOpacity.value = 1;
-                  };
-
                   const textureLoader = new TextureLoader();
-                  textureLoader.load(
-                    props.images.optimized,
-                    (texture) => {
-                      setTextureProperties(texture);
-                    },
-                    (progress) => {},
-                    (error) => {
-                      textureLoader.load(
-                        props.images.stable,
-                        (texture) => {
-                          setTextureProperties(texture);
-                        },
-                      );
-                    },
-                  );
+                  (function loadTextures(
+                    images = props.images,
+                    index = 0,
+                  ) {
+                    if (index >= images.length) {
+                      return;
+                    }
+                    textureLoader.load(
+                      images[index],
+                      (texture) => {
+                        texture.colorSpace = SRGBColorSpace;
+                        texture.flipY = false;
+                        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                        texture.generateMipmaps = false;
+
+                        node.material.color = new Color('white');
+                        node.material.transparent = true;
+                        node.material.map = texture;
+
+                        canvasOpacity.value = 1;
+                      },
+                      () => {}, // progress
+                      () => { // error
+                        loadTextures(images, index + 1);
+                      },
+                    );
+                  }());
+
                   observer.unobserve(canvasRef.value);
                 }());
               }

@@ -6,10 +6,11 @@
       "github": "https://github.com/chelovechek48/Chess/",
       "demo": "https://chelovechek48.github.io/Chess/"
     },
-    "image": {
-      "optimized": "chess@laptop.avif",
-      "stable": "chess@laptop.jpg"
-    },
+    "images": [
+      "chess@laptop.avif",
+      "chess@laptop.webp",
+      "chess@laptop.jpg"
+    ],
     "model": "laptop"
   },
   {
@@ -19,10 +20,10 @@
       "github": "https://github.com/chelovechek48/hotskins/",
       "demo": "https://chelovechek48.github.io/hotskins/"
     },
-    "image": {
-      "optimized": "hotskins@mobile.avif",
-      "stable": "hotskins@mobile.png"
-    },
+    "images": [
+      "hotskins@mobile.avif",
+      "hotskins@mobile.png"
+    ],
     "model": "phone"
   },
   {
@@ -32,10 +33,11 @@
       "github": "https://github.com/chelovechek48/PRO-Auto-/",
       "demo": "https://chelovechek48.github.io/PRO-Auto/"
     },
-    "image": {
-      "optimized": "pro-auto@tablet.avif",
-      "stable": "pro-auto@tablet.jpg"
-    },
+    "images": [
+      "pro-auto@tablet.avif",
+      "pro-auto@tablet.webp",
+      "pro-auto@tablet.jpg"
+    ],
     "model": "tablet"
   }
 ]
