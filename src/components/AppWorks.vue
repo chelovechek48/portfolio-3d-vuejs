@@ -121,9 +121,22 @@ const getImages = (imagesList) => {
 
     &_git {
       height: calc($size * $line-height);
-      background-color: var(--color-aqua);
       box-sizing: content-box;
       padding: 1rem;
+    }
+
+    &_git, &_demo::before {
+      background-color: var(--color-aqua);
+      transition: all 250ms ease;
+    }
+    &_git:hover, &_demo:hover::before {
+      background-color: colors.$white;
+    }
+    &_git:focus-visible, &_demo:focus-visible {
+      outline-style: solid;
+      outline-width: 0.25rem;
+      outline-offset: 0.25rem;
+      outline-color: colors.$white;
     }
 
     &_demo {
@@ -134,17 +147,25 @@ const getImages = (imagesList) => {
 
       z-index: 1;
       position: relative;
+      $clip-padding: 1.25rem;
       &::before {
         content: '';
         z-index: -1;
         position: absolute;
         inset: 0;
-        background-color: var(--color-aqua);
-        $clip-padding: 1.25rem;
         clip-path: polygon(
           100% 0,
           100% calc(100% - $clip-padding),
           calc(100% - $clip-padding) 100%,
+          0 100%,
+          0 0
+        );
+      }
+      &:hover::before {
+        clip-path: polygon(
+          100% 0,
+          100% calc(100% - $clip-padding),
+          100% 100%,
           0 100%,
           0 0
         );
