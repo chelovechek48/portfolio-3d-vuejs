@@ -12,10 +12,11 @@ import vertexShader from '@/assets/shaders/sphere-vertex.glsl';
 const canvasRef = ref(null);
 const createSphere = (SphereFill) => {
   const renderer = new WebGLRenderer({
+    antialias: false,
     alpha: true,
     failIfMajorPerformanceCaveat: true,
   });
-  renderer.setPixelRatio(1);
+  renderer.setPixelRatio(window.devicePixelRatio);
 
   const camera = new PerspectiveCamera(54, undefined, 0.1, 100);
   const updatedCamera = () => {

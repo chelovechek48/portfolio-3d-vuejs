@@ -7,6 +7,7 @@ import {
   TextureLoader,
   AmbientLight, DirectionalLight,
   Color, SRGBColorSpace,
+  LinearFilter, LinearMipmapLinearFilter, NearestMipmapNearestFilter, NearestFilter,
 } from 'three';
 import { DRACOLoader, GLTFLoader } from 'three-stdlib';
 import { gsap } from 'gsap';
@@ -30,10 +31,12 @@ const currentDevice = devices.find((device) => device.name === props.model);
 const addModel = () => {
   const scene = new Scene();
   const renderer = new WebGLRenderer({
+    antialias: false,
     canvas: canvasRef.value,
     alpha: true,
     failIfMajorPerformanceCaveat: true,
   });
+  renderer.setPixelRatio(window.devicePixelRatio);
 
   const canvasSizes = {
     width: canvasRef.value.offsetWidth,
