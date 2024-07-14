@@ -18,7 +18,7 @@ import CanvasSphere from '@components/CanvasSphere.vue';
 @use '@vars/breakpoints' as *;
 
 *::selection {
-  color: #000;
+  color: colors.$black;
   background: colors.$aqua;
 }
 
