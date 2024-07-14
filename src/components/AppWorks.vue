@@ -25,9 +25,9 @@ const getImages = (imagesList) => {
     >
       <div class="works__text" ref="text">
         <span class="works__span" />
-        <h2 class="works__title">
+        <header class="works__title">
           {{ project.title }}
-        </h2>
+        </header>
         <p class="works__description">
           {{ project.description }}
         </p>
@@ -102,6 +102,7 @@ const getImages = (imagesList) => {
 
   &__title {
     font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
   }
   &__description {
     font-size: clamp(1rem, 1.5vw, 1.25rem);
