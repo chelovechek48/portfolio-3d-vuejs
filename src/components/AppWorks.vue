@@ -18,7 +18,7 @@ const getImages = (imagesList) => {
 </script>
 
 <template>
-  <ul class="works__list container">
+  <ul class="works container">
     <li
       v-for="project in projects" :key="project.link"
       class="works__item"
@@ -54,11 +54,10 @@ const getImages = (imagesList) => {
 @use '@vars/breakpoints' as *;
 
 .works {
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-  }
+  padding-bottom: 12vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
   &__item {
     display: flex;
     align-items: center;
