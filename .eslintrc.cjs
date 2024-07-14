@@ -27,6 +27,7 @@ module.exports = {
           ['@components', './src/components'],
           ['@images', './src/assets/images'],
           ['@icons', './src/assets/icons'],
+          ['@fonts', './src/assets/fonts'],
           ['@models', './src/assets/models'],
           ['@styles', './src/styles'],
           ['@vars', './src/styles/vars'],
