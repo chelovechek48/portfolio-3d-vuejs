@@ -85,7 +85,7 @@ const getImages = (imagesList) => {
   &__span {
     width: 100%;
     height: 3px;
-    background-color: var(--color-aqua);
+    background-color: colors.$aqua;
 
     display: flex;
     align-items: flex-end;
@@ -96,7 +96,7 @@ const getImages = (imagesList) => {
       width: 10rem;
       margin-left: -1.5rem;
       height: 1.5rem;
-      background-color: var(--color-aqua);
+      background-color: colors.$aqua;
       clip-path: polygon(0 0, 85% 0, 100% 100%, 15% 100%);
     }
   }
@@ -117,7 +117,7 @@ const getImages = (imagesList) => {
     $size: clamp(1.25rem, 2vw, 1.5rem);
     $line-height: 1.3;
 
-    color: var(--color-background);
+    color: colors.$black;
 
     &_git {
       height: calc($size * $line-height);
@@ -125,18 +125,22 @@ const getImages = (imagesList) => {
       padding: 1rem;
     }
 
-    &_git, &_demo::before {
-      background-color: var(--color-aqua);
+    &_git, &_demo, &_demo::before {
       transition: all 250ms ease;
+    }
+    &_git, &_demo::before {
+      background-color: colors.$aqua;
     }
     &_git:hover, &_demo:hover::before {
       background-color: colors.$white;
     }
-    &_git:focus-visible, &_demo:focus-visible {
-      outline-style: solid;
-      outline-width: 0.25rem;
-      outline-offset: 0.25rem;
-      outline-color: colors.$white;
+    &_git, &_demo {
+      &:focus-visible {
+        outline-style: solid;
+        outline-width: 0.25rem;
+        outline-offset: 0.25rem;
+        outline-color: colors.$white;
+      }
     }
 
     &_demo {

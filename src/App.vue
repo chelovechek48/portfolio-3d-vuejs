@@ -17,15 +17,9 @@ import CanvasSphere from '@components/CanvasSphere.vue';
 @use '@vars/colors';
 @use '@vars/breakpoints' as *;
 
-:root {
-  --color-text: #{colors.$white};
-  --color-background: #{colors.$black};
-  --color-aqua: #{colors.$aqua};
-}
-
 *::selection {
   color: #000;
-  background: var(--color-aqua);
+  background: colors.$aqua;
 }
 
 .container {
@@ -36,8 +30,8 @@ import CanvasSphere from '@components/CanvasSphere.vue';
 }
 
 .page {
-  color: var(--color-text);
-  background-color: var(--color-background);
+  color: colors.$white;
+  background-color: colors.$black;
 
   min-height: 100dvh;
   display: flex;

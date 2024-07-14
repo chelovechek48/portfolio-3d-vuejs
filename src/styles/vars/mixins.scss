@@ -1,3 +1,5 @@
+@use '@vars/colors';
+
 $ease: cubic-bezier(0.25, 0.1, 0.25, 1.0);
 
 @keyframes show-text {
@@ -19,8 +21,8 @@ $ease: cubic-bezier(0.25, 0.1, 0.25, 1.0);
 }
 
 @mixin fill-text (
-  $color: var(--color-text),
-  $fill: var(--color-aqua),
+  $color: colors.$white,
+  $fill: colors.$aqua,
   $duration: 3s,
   $delay: 1s,
 ) {
