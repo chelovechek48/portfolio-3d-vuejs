@@ -1,6 +1,6 @@
 <script setup>
 import AppHero from '@components/AppHero.vue';
-import ProjectList from '@components/ProjectList.vue';
+import AppWorks from '@components/AppWorks.vue';
 import CanvasSphere from '@components/CanvasSphere.vue';
 </script>
 
@@ -8,7 +8,7 @@ import CanvasSphere from '@components/CanvasSphere.vue';
   <div class="page">
     <CanvasSphere />
     <AppHero />
-    <ProjectList />
+    <AppWorks />
   </div>
 </template>
 
