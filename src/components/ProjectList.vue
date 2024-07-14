@@ -5,9 +5,16 @@ import AppSvg from '@components/AppSvg.vue';
 import projects from '@/assets/json/projects.json';
 
 const images = import.meta.glob('@images/projects/*.*', { eager: true });
-const getImage = (imageName) => {
-  const imageNameWithPath = `/src/assets/images/projects/${imageName}`;
-  return images[imageNameWithPath].default;
+const getImages = (imagesSource) => {
+  const entries = Object.entries(imagesSource);
+  const obj = {};
+  entries.forEach((el) => {
+    const type = el[0];
+    const path = el[1];
+    const imageNameWithPath = `/src/assets/images/projects/${path}`;
+    obj[type] = images[imageNameWithPath].default;
+  });
+  return obj;
 };
 
 </script>
@@ -37,7 +44,7 @@ const getImage = (imageName) => {
       </div>
       <CanvasModel
         class="works__demo"
-        :image="getImage(project.image)"
+        :images="getImages(project.image)"
         :model="project.model"
       />
     </li>
