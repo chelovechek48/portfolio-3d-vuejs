@@ -12,6 +12,7 @@ import vertexShader from '@/assets/shaders/sphere-vertex.glsl';
 const canvasRef = ref(null);
 const createSphere = (SphereFill) => {
   const renderer = new WebGLRenderer({
+    canvas: canvasRef.value,
     antialias: false,
     alpha: true,
     failIfMajorPerformanceCaveat: true,
@@ -71,7 +72,6 @@ const createSphere = (SphereFill) => {
     }
   };
   renderer.setAnimationLoop(animate);
-  canvasRef.value.appendChild(renderer.domElement);
 
   const gsapTimeline = gsap.timeline({
     scrollTrigger: {
@@ -94,13 +94,15 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="canvas" ref="canvasRef" />
+  <canvas class="canvas" ref="canvasRef" aria-hidden="true" />
 </template>
 <style lang="scss" scoped>
 .canvas {
   z-index: 1;
   position: fixed;
-  inset: 0 0 -400px 0;
+  top: 0; left: 0;
+  width: 100% !important;
+  height: calc(100% + 400px) !important;
   pointer-events: none;
 }
 </style>

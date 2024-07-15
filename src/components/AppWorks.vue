@@ -32,7 +32,11 @@ const getImages = (imagesList) => {
           {{ project.description }}
         </p>
         <div class="works__button-list">
-          <a class="works__button works__button_git" :href="project.link.github" target="_blank">
+          <a
+            class="works__button works__button_git"
+            :href="project.link.github" target="_blank"
+            aria-label="отркыть github репозиторий"
+          >
             <AppSvg icon-id="github" />
           </a>
           <a class="works__button works__button_demo" :href="project.link.demo" target="_blank">
@@ -44,6 +48,7 @@ const getImages = (imagesList) => {
         class="works__demo"
         :images="getImages(project.images)"
         :model="project.model"
+        :aria-label="project.aria"
       />
     </li>
   </ul>

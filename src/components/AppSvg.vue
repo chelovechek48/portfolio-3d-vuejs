@@ -20,7 +20,7 @@ defineProps({
 </script>
 
 <template>
-  <svg :viewBox="viewBox">
+  <svg :viewBox="viewBox" aria-hidden="true">
     <use :xlink:href="`${sprite}#${iconId}`" />
   </svg>
 </template>
